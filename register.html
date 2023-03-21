@@ -70,31 +70,42 @@
             let p=document.getElementById("phone");
             let d=document.getElementById("date");
             let t=document.getElementById("time");
-            console.log("Name:"+ n.value);
-            console.log("Email:"+em.value);
-            console.log("PhoneNumber:"+p.value);
-            console.log("Time For Call:"+" "+d.value+" "+t.value);
-            let newObj = {
+            // console.log("Name:"+ n.value);
+            // console.log("Email:"+em.value);
+            // console.log("PhoneNumber:"+p.value);
+            // console.log("Time For Call:"+" "+d.value+" "+t.value);
+            let cartItem = {
                 name:n.value,
                 email:em.value,
                 phone:p.value,
                 date:d.value,
                 time:t.value
             };
-            let objSerialized= JSON.stringify(newObj);
-            let oldObj = localStorage.getItem('obj') || "";
-            oldObj=oldObj+objSerialized;
-            localStorage.setItem('obj',oldObj);
-            
+           localStorage.setItem(em.value,JSON.stringify(cartItem));
             
             let div2 = document.getElementById('div2');
-            let div1 = document.getElementById('div1');
-            let newDiv = document.createElement('div');
+            
+            let li = document.createElement('li');
+            li.id=em.value;
+            
             let node = document.createTextNode(`name: ${n.value} email: ${em.value} phone: ${p.value} date: ${d.value} time: ${t.value}`);
-            newDiv.append(node);
-            newDiv.style.color='red';
+            li.append(node);
+            li.style.color='red';
 
-            div2.appendChild(newDiv);
+            let btn = document.createElement('Button');
+            btn.value='delete';
+            btn.textContent='Delete';
+            li.append(btn);
+
+            btn.onclick=(event)=>{
+                let pEl = event.target.parentElement;
+                let pEEl = pEl.parentElement;
+                localStorage.removeItem(pEl.id);
+                pEEl.removeChild(pEl);
+                
+            }
+
+            div2.appendChild(li);
 
             n.value="";
             em.value="";
@@ -103,6 +114,9 @@
             t.value="";
 
         })
+
+        
+        
         // let btn = document.getElementById('btn');
         // btn.addEventListener('click',(e)=>
         // {
