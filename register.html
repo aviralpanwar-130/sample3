@@ -74,17 +74,33 @@
             console.log("Email:"+em.value);
             console.log("PhoneNumber:"+p.value);
             console.log("Time For Call:"+" "+d.value+" "+t.value);
-            localStorage.setItem('name',n.value);
-            localStorage.setItem('email',em.value);
-            localStorage.setItem('phone',p.value);
-            localStorage.setItem('date',d.value);
-            localStorage.setItem('time',t.value);
+            let newObj = {
+                name:n.value,
+                email:em.value,
+                phone:p.value,
+                date:d.value,
+                time:t.value
+            };
+            let objSerialized= JSON.stringify(newObj);
+            let oldObj = localStorage.getItem('obj') || "";
+            oldObj=oldObj+objSerialized;
+            localStorage.setItem('obj',oldObj);
+            
+            
+            let div2 = document.getElementById('div2');
+            let div1 = document.getElementById('div1');
+            let newDiv = document.createElement('div');
+            let node = document.createTextNode(`name: ${n.value} email: ${em.value} phone: ${p.value} date: ${d.value} time: ${t.value}`);
+            newDiv.append(node);
+            newDiv.style.color='red';
+
+            div2.appendChild(newDiv);
+
             n.value="";
             em.value="";
             p.value="";
             d.value="";
             t.value="";
-            
 
         })
         // let btn = document.getElementById('btn');
