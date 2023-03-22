@@ -96,12 +96,30 @@
             btn.value='delete';
             btn.textContent='Delete';
             li.append(btn);
+            let btn2 = document.createElement('Button');
+            btn2.value='edit';
+            btn2.textContent='Edit';
+            li.append(btn2);
 
             btn.onclick=(event)=>{
                 let pEl = event.target.parentElement;
                 let pEEl = pEl.parentElement;
                 localStorage.removeItem(pEl.id);
                 pEEl.removeChild(pEl);
+                
+            }
+            btn2.onclick=(event)=>{
+
+                let pEl = event.target.parentElement;
+                let pEEl = pEl.parentElement;
+                let item = JSON.parse(localStorage.getItem(pEl.id));
+                localStorage.removeItem(pEl.id);
+                pEEl.removeChild(pEl);
+                n.value=item.name;
+                em.value=item.email;
+                p.value=item.phone;
+                d.value=item.date;
+                t.value=item.time;
                 
             }
 
