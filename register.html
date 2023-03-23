@@ -44,19 +44,24 @@
    <div id="div2">
     <div class="diva" id="div1" style=" border:4px solid brown;  margin: 0 auto;  background-color: azure; ">
         <br>
-    <h3 style="text-align: center; padding-top: 10px;">Book A Call</h3>
-    <p style="text-align: center;">Book a call and our representive will call you within an hour</p>
+    <h3 style="text-align: center; padding-top: 10px;">Expense Tracker</h3>
+    <p style="text-align: center;">Hii! This is an amazing expense tracker</p>
     <form id="lf" style="font-size: 1rem;">
-        <label for="name">Name:</label><br>
-        <input style="font-size: .85rem;" type="text" placeholder="Enter your name" id="name" name="name"/><br><br>
-        <label for="email">Email:</label><br>
-        <input style="font-size: .85rem;" type="email" placeholder="Enter you email" id="email" name="email"/><br><br>
-        <label for="phone">Phone</label><br>
-        <input style="font-size: .85rem;" type="number" placeholder="Phone Number" id="phone" name="phone"/><br><br>
-        <label for="date">Time For Call:</label><br>
-        <input style="font-size: .85rem;" type="date" id="date" name="date">
-        <input style="font-size: .85rem;" type="time" id="time" name="time"><br><br>
-        <div style="text-align: center;"><button id="btn" type="submit" style=" font-size: .85rem; background-color:orange;">Get A Call</button></div>
+        <label for="expense">Choose Expense:</label><br>
+        <input style="font-size: .85rem;" type="number" id="expense" expense="expense"/><br><br>
+        <label for="description">Choose Description:</label><br>
+        <input style="font-size: .85rem;" type="text" id="description" expense="description"/><br><br>
+        <label for="category">Choose a category:</label><br>
+        <select style="font-size: .85rem;" id="category" expense="category">
+            <option value="Other"></option>
+            <option value="Tution">Tution</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Health">Health</option>
+            <option value="Food">Food</option>
+        </select><br><br>
+       
+        
+        <div style="text-align: center;"><button id="btn" type="submit" style=" font-size: .85rem; background-color:orange;">Add Expense</button></div>
 
     </form>
     </div>
@@ -65,21 +70,19 @@
         let loginform = document.getElementById("lf");
         loginform.addEventListener("submit",(e)=>{
             e.preventDefault();
-            let n=document.getElementById("name");
-            let em=document.getElementById("email");
-            let p=document.getElementById("phone");
-            let d=document.getElementById("date");
-            let t=document.getElementById("time");
-            // console.log("Name:"+ n.value);
-            // console.log("Email:"+em.value);
-            // console.log("PhoneNumber:"+p.value);
+            let n=document.getElementById("expense");
+            let em=document.getElementById("description");
+            let p=document.getElementById("category");
+            
+            // console.log("expense:"+ n.value);
+            // console.log("description:"+em.value);
+            // console.log("categoryNumber:"+p.value);
             // console.log("Time For Call:"+" "+d.value+" "+t.value);
             let cartItem = {
-                name:n.value,
-                email:em.value,
-                phone:p.value,
-                date:d.value,
-                time:t.value
+                expense:n.value,
+                description:em.value,
+                category:p.value,
+                
             };
            localStorage.setItem(em.value,JSON.stringify(cartItem));
             
@@ -88,7 +91,7 @@
             let li = document.createElement('li');
             li.id=em.value;
             
-            let node = document.createTextNode(`name: ${n.value} email: ${em.value} phone: ${p.value} date: ${d.value} time: ${t.value}`);
+            let node = document.createTextNode(`expense: ${n.value} description: ${em.value} category: ${p.value}`);
             li.append(node);
             li.style.color='red';
 
@@ -115,11 +118,10 @@
                 let item = JSON.parse(localStorage.getItem(pEl.id));
                 localStorage.removeItem(pEl.id);
                 pEEl.removeChild(pEl);
-                n.value=item.name;
-                em.value=item.email;
-                p.value=item.phone;
-                d.value=item.date;
-                t.value=item.time;
+                n.value=item.expense;
+                em.value=item.description;
+                p.value=item.category;
+                
                 
             }
 
