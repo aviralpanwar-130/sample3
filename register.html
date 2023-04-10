@@ -66,32 +66,28 @@
     </form>
     </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        let n=document.getElementById("expense");
+        let em=document.getElementById("description");
+        let p=document.getElementById("category");
         let loginform = document.getElementById("lf");
-        loginform.addEventListener("submit",(e)=>{
-            e.preventDefault();
-            let n=document.getElementById("expense");
-            let em=document.getElementById("description");
-            let p=document.getElementById("category");
-            
-            // console.log("expense:"+ n.value);
-            // console.log("description:"+em.value);
-            // console.log("categoryNumber:"+p.value);
-            // console.log("Time For Call:"+" "+d.value+" "+t.value);
-            let cartItem = {
-                expense:n.value,
-                description:em.value,
-                category:p.value,
-                
-            };
-           localStorage.setItem(em.value,JSON.stringify(cartItem));
-            
+        axios.get('https://crudcrud.com/api/06b61b3f08f4439caeb95a5d1b44772a/appData')
+        .then((res)=>{
+            let arr = res.data;
+            for ( let i =0; i < arr.length; i++ ) {
+            let object = arr[i];
+            create(object);
+            }
+        });
+        
+        function create(obj){
             let div2 = document.getElementById('div2');
             
             let li = document.createElement('li');
-            li.id=em.value;
+            li.id=obj.description;
             
-            let node = document.createTextNode(`expense: ${n.value} description: ${em.value} category: ${p.value}`);
+            let node = document.createTextNode(`expense: ${obj.expense} description: ${obj.description} category: ${obj.category}`);
             li.append(node);
             li.style.color='red';
 
@@ -104,14 +100,18 @@
             btn2.textContent='Edit';
             li.append(btn2);
 
-            btn.onclick=(event)=>{
+            
+
+            div2.appendChild(li);
+
+        btn.onclick=(event)=>{
                 let pEl = event.target.parentElement;
                 let pEEl = pEl.parentElement;
                 localStorage.removeItem(pEl.id);
                 pEEl.removeChild(pEl);
                 
             }
-            btn2.onclick=(event)=>{
+        btn2.onclick=(event)=>{
 
                 let pEl = event.target.parentElement;
                 let pEEl = pEl.parentElement;
@@ -121,20 +121,32 @@
                 n.value=item.expense;
                 em.value=item.description;
                 p.value=item.category;
-                
-                
             }
 
-            div2.appendChild(li);
+        }
+        
+        loginform.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            let cartItem = {
+                expense:n.value,
+                description:em.value,
+                category:p.value,
+                
+            };
+            
+            axios.post('https://crudcrud.com/api/06b61b3f08f4439caeb95a5d1b44772a/appData',cartItem)
+            .then((res)=>console.log(res))
+            .catch((err)=>console.log(err));
+           //localStorage.setItem(em.value,JSON.stringify(cartItem));
+           create(cartItem);
 
             n.value="";
             em.value="";
             p.value="";
-            d.value="";
-            t.value="";
+            
 
         })
-
+        
         
         
         // let btn = document.getElementById('btn');
@@ -157,3 +169,4 @@
        
     </script>
 </body>
+</html>
